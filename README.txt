@@ -1,6 +1,6 @@
 # TagAndProbe
 
-To set things up:
+To set things up on UAF:
 
    export SCRAM_ARCH=slc6_amd64_gcc481
    source /cvmfs/cms.cern.ch/cmsset_default.sh
