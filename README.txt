@@ -15,7 +15,20 @@ cd $CMSSW_BASE/src/AnalysisTools
 git checkout tnp_V00-00-00
 cd $CMSSW_BASE/src/
 
-And checkout this code:
+Checkout this code:
 
 git clone git@github.com:gzevi/TagAndProbe.git
+
+And compile!
+scramv1 b -j10
+
+To run the first step (plot making)
+cd TagAndProbe/Analysis
+tnp_make_plots config/ElectronID_2015test.py
+
+For detailed instructions, look at Ryan's twiki, skipping the babymaking 
+http://www.t2.ucsd.edu/tastwiki/bin/view/CMS/TagAndProbe#Calculate_the_Efficiency
+
+Useful tool to remake LeptonTree.h/cc files after changing the LeptonTree
+TagAndProbe/Analysis/tools/makeLeptonTreeClassFiles.sh
 
