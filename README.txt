@@ -17,9 +17,11 @@ To set things up:
 
    scramv1 b -j10
 
-To run the first step (plot making) on a small LeptonTree
+To run the first steps (make dilepMass plots and fit them to 
+extrac efficiencies) on a small LeptonTree:
    cd TagAndProbe/Analysis
    tnp_make_plots config/ElectronID_2015test.py
+   tnp_eff_plots  config/ElectronID_2015test.py
 
 -------
 For detailed instructions, look at Ryan's twiki, skipping the babymaking 

@@ -211,7 +211,7 @@ tnp_parameters.mc_template_file = cms.string("%s/plots/%s/%s/%s_%s/%s.root" % (a
                                                                                tnp_parameters.lepton_type.value(),
                                                                                tnp_parameters.denominator.value(), 
                                                                                tnp_parameters.numerator.value(), 
-                                                                               dy_full.name.value()))
+                                                                               dy_test.name.value()))
 ## ------------------------------------------------------------- #
 ## process to make the plots
 ## will make a set of plots for each element of the cms.VPSet
