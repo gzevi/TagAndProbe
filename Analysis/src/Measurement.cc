@@ -68,7 +68,7 @@ namespace tnp
             const float el_is_barrel   = fabs(el_etaSC()) < 1.4442;
             const float el_is_endcap   = fabs(el_etaSC()) > 1.566;
             const float el_is_crack    = not (el_is_barrel or el_is_endcap);
-            const float el_tag_pt      = p4().pt(); //GZ need update
+            const float el_tag_pt      = tag_p4().pt(); 
             const float el_tag_pt_cut  = 30.0;
 	    const float el_iso         = iso();
 	    const float el_iso_eg_cut  = 0.15;
@@ -128,7 +128,7 @@ namespace tnp
         if (lepton_type == Lepton::Muon)
         {
             // cut values and variables
-            const float mu_tag_pt      = p4().pt(); //GZ need update
+            const float mu_tag_pt      = tag_p4().pt();
             const float mu_iso         = iso();
             const float mu_iso_pog_cut = 0.15;  // Muon POG value (not sure about this one)
             const float mu_tag_pt_cut  = 30.0;

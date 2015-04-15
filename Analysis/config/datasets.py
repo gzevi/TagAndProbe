@@ -13,10 +13,8 @@ sys.path.append(analysis_path + "/config")
 ## ------------------------------------------------------------------------------------------------------------------- #
 
 ## path to the lepton trees
-#lepton_tree_tag  = "V00-00-06"
-#lepton_tree_path = "/nfs-7/userdata/gzevi/lepton_trees/" + lepton_tree_tag
 lepton_tree_tag  = "V00-00-06"
-lepton_tree_path = "/afs/cern.ch/user/g/gzevi/work/TagProbe/CMSSW_7_2_0/src/TagAndProbe/Analysis"
+lepton_tree_path = "/nfs-7/userdata/gzevi/lepton_trees/" + lepton_tree_tag
 
 ## good run list
 run_list = cms.string(analysis_path + "/json/final_19p49fb.txt")

@@ -246,20 +246,17 @@ int MassPlotLooper::Analyze(long long entry)
         const bool is_mc   = (not is_data);
 
         // passes the probe denominator 
-        //GZif (not tnp::PassesSelection(m_lepton_type, m_den, is_data))
-        //GZ{
-        //GZ    if (m_verbose) {cout << "Did not pass the denominator selection" << endl;}
-        //GZ    return 0;
-        //GZ}
+        if (not tnp::PassesSelection(m_lepton_type, m_den, is_data))
+        {
+            if (m_verbose) {cout << "Did not pass the denominator selection" << endl;}
+            return 0;
+        }
 
-        unsigned int evt_sel = 1; //GZ eventSelection();
+	bool foundTag = (tag_charge() != 0); // This means we our probe lives in an event with a good tag of same flavor
         // Z/onia --> ee
         if (is_el)
         {
-            //if (((evt_sel & tnp::EventSelection::ZeeTagAndProbe   ) != tnp::EventSelection::ZeeTagAndProbe   ) && 
-            //    ((evt_sel & tnp::EventSelection::OniaEETagAndProbe) != tnp::EventSelection::OniaEETagAndProbe))
-            //{
-	  if (evt_sel!=1)  {
+	  if (!foundTag)  {
 	    if (m_verbose) {cout << "Did not pass Z/onia --> ee" << endl;}
 	    return 0;
 	  }
@@ -267,24 +264,21 @@ int MassPlotLooper::Analyze(long long entry)
         // Z/onia --> mm
         if (is_mu)
         {
-            //if (((evt_sel & tnp::EventSelection::ZmmTagAndProbe     ) != tnp::EventSelection::ZmmTagAndProbe     ) && 
-            //    ((evt_sel & tnp::EventSelection::OniaMuMuTagAndProbe) != tnp::EventSelection::OniaMuMuTagAndProbe))
-            //{
-	  if (evt_sel!=1)  {
+	  if (!foundTag)  {
 	    if (m_verbose) {cout << "Did not pass Z/onia --> mm" << endl;}
 	    return 0;
 	  }
         }
 
         // require OS leptons
-        //GZif((qProbe() * qTag()) > 0)
-        //GZ{
-        //GZ    if (m_verbose) {cout << "Did not pass OS requirement" << endl;}
-        //GZ    return 0;
-        //GZ}
+        if( (is_el && (tag_charge() * el_charge()) > 0) || is_mu ) // GZ FIX Need to add mu_charge to LeptonTree
+        {
+            if (m_verbose) {cout << "Did not pass OS requirement" << endl;}
+            return 0;
+        }
 
         // require mass window around the Z
-        const float mass = 90; //GZ tagAndProbeMass();
+        const float mass = dilep_mass();
         if (not (m_mass_low < mass && mass < m_mass_high))
         {
             if (m_verbose) {cout << "Did not pass Z mass requirement" << endl;}
@@ -300,7 +294,7 @@ int MassPlotLooper::Analyze(long long entry)
 
         // check pt boundaries
         const bool has_pt_bins = m_pt_bins.size() >= 2;
-        const float probe_pt   = p4().pt(); //GZprobe().pt();
+        const float probe_pt   = p4().pt();
         const float pt_min     = (not has_pt_bins ? 999999.0  : m_pt_bins.front());
         const float pt_max     = (not has_pt_bins ? -999999.0 : m_pt_bins.back() );
         if (has_pt_bins and not (pt_min < probe_pt && probe_pt < pt_max))
@@ -314,7 +308,6 @@ int MassPlotLooper::Analyze(long long entry)
         const float eta_min     = (not has_eta_bins ? 999999.0  : m_eta_bins.front());
         const float eta_max     = (not has_eta_bins ? -999999.0 : m_eta_bins.back() );
         const float use_abs_eta = (eta_min >= 0);
-        //GZconst float probe_eta   = use_abs_eta ? fabs(is_el ? sceta() : probe().eta()) : (is_el ? sceta() : probe().eta());
 	const float probe_eta   = use_abs_eta ? fabs(is_el ? el_etaSC() : p4().eta()) : (is_el ? el_etaSC() : p4().eta());
         if (has_eta_bins and not (eta_min < probe_eta && probe_eta < eta_max))
         {
@@ -327,7 +320,6 @@ int MassPlotLooper::Analyze(long long entry)
         const float phi_min     = (not has_phi_bins ? 999999.0  : m_phi_bins.front());
         const float phi_max     = (not has_phi_bins ? -999999.0 : m_phi_bins.back() );
         const float use_abs_phi = (phi_min >= 0);
-        //GZconst float probe_phi   = use_abs_phi ? fabs(probe().phi()) : probe().phi();
 	const float probe_phi   = use_abs_phi ? fabs(p4().phi()) : p4().phi();
         if (has_phi_bins and not (phi_min < probe_phi && probe_phi < phi_max))
         {
@@ -366,8 +358,7 @@ int MassPlotLooper::Analyze(long long entry)
         // ------------------------------------------------------------------------------------ //
 
         // passes the probe numerator 
-        //GZif (tnp::PassesSelection(m_lepton_type, m_num, is_data))
-	if (true)
+        if (tnp::PassesSelection(m_lepton_type, m_num, is_data))
         {
             if (m_verbose) {cout << "passes the numerator selection" << endl;}
 

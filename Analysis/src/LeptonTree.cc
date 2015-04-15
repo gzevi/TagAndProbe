@@ -26,6 +26,8 @@ namespace lepton_tree {
 	const int &nFOs() { return lepton_tree_obj.nFOs(); }
 	const int &nvtx() { return lepton_tree_obj.nvtx(); }
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &p4() { return lepton_tree_obj.p4(); }
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &tag_p4() { return lepton_tree_obj.tag_p4(); }
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &dilep_p4() { return lepton_tree_obj.dilep_p4(); }
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &mc_p4() { return lepton_tree_obj.mc_p4(); }
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &mc_motherp4() { return lepton_tree_obj.mc_motherp4(); }
 	const int &id() { return lepton_tree_obj.id(); }
@@ -53,6 +55,8 @@ namespace lepton_tree {
 	const float &ptrelv1() { return lepton_tree_obj.ptrelv1(); }
 	const float &miniiso() { return lepton_tree_obj.miniiso(); }
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &jet_close_lep() { return lepton_tree_obj.jet_close_lep(); }
+	const int &tag_charge() { return lepton_tree_obj.tag_charge(); }
+	const float &dilep_mass() { return lepton_tree_obj.dilep_mass(); }
 	const float &el_sigmaIEtaIEta_full5x5() { return lepton_tree_obj.el_sigmaIEtaIEta_full5x5(); }
 	const float &el_etaSC() { return lepton_tree_obj.el_etaSC(); }
 	const float &el_dEtaIn() { return lepton_tree_obj.el_dEtaIn(); }

@@ -92,6 +92,12 @@ protected:
 	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *p4_;
 	TBranch *p4_branch;
 	bool p4_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *tag_p4_;
+	TBranch *tag_p4_branch;
+	bool tag_p4_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *dilep_p4_;
+	TBranch *dilep_p4_branch;
+	bool dilep_p4_isLoaded;
 	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *mc_p4_;
 	TBranch *mc_p4_branch;
 	bool mc_p4_isLoaded;
@@ -173,6 +179,12 @@ protected:
 	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *jet_close_lep_;
 	TBranch *jet_close_lep_branch;
 	bool jet_close_lep_isLoaded;
+	int	tag_charge_;
+	TBranch *tag_charge_branch;
+	bool tag_charge_isLoaded;
+	float	dilep_mass_;
+	TBranch *dilep_mass_branch;
+	bool dilep_mass_isLoaded;
 	float	el_sigmaIEtaIEta_full5x5_;
 	TBranch *el_sigmaIEtaIEta_full5x5_branch;
 	bool el_sigmaIEtaIEta_full5x5_isLoaded;
@@ -244,6 +256,16 @@ void Init(TTree *tree) {
 	if (tree->GetBranch("p4") != 0) {
 		p4_branch = tree->GetBranch("p4");
 		if (p4_branch) {p4_branch->SetAddress(&p4_);}
+	}
+	tag_p4_branch = 0;
+	if (tree->GetBranch("tag_p4") != 0) {
+		tag_p4_branch = tree->GetBranch("tag_p4");
+		if (tag_p4_branch) {tag_p4_branch->SetAddress(&tag_p4_);}
+	}
+	dilep_p4_branch = 0;
+	if (tree->GetBranch("dilep_p4") != 0) {
+		dilep_p4_branch = tree->GetBranch("dilep_p4");
+		if (dilep_p4_branch) {dilep_p4_branch->SetAddress(&dilep_p4_);}
 	}
 	mc_p4_branch = 0;
 	if (tree->GetBranch("mc_p4") != 0) {
@@ -496,6 +518,16 @@ void Init(TTree *tree) {
 		miniiso_branch = tree->GetBranch("miniiso");
 		if (miniiso_branch) {miniiso_branch->SetAddress(&miniiso_);}
 	}
+	tag_charge_branch = 0;
+	if (tree->GetBranch("tag_charge") != 0) {
+		tag_charge_branch = tree->GetBranch("tag_charge");
+		if (tag_charge_branch) {tag_charge_branch->SetAddress(&tag_charge_);}
+	}
+	dilep_mass_branch = 0;
+	if (tree->GetBranch("dilep_mass") != 0) {
+		dilep_mass_branch = tree->GetBranch("dilep_mass");
+		if (dilep_mass_branch) {dilep_mass_branch->SetAddress(&dilep_mass_);}
+	}
 	el_sigmaIEtaIEta_full5x5_branch = 0;
 	if (tree->GetBranch("el_sigmaIEtaIEta_full5x5") != 0) {
 		el_sigmaIEtaIEta_full5x5_branch = tree->GetBranch("el_sigmaIEtaIEta_full5x5");
@@ -627,6 +659,8 @@ void GetEntry(unsigned int idx)
 		nFOs_isLoaded = false;
 		nvtx_isLoaded = false;
 		p4_isLoaded = false;
+		tag_p4_isLoaded = false;
+		dilep_p4_isLoaded = false;
 		mc_p4_isLoaded = false;
 		mc_motherp4_isLoaded = false;
 		id_isLoaded = false;
@@ -654,6 +688,8 @@ void GetEntry(unsigned int idx)
 		ptrelv1_isLoaded = false;
 		miniiso_isLoaded = false;
 		jet_close_lep_isLoaded = false;
+		tag_charge_isLoaded = false;
+		dilep_mass_isLoaded = false;
 		el_sigmaIEtaIEta_full5x5_isLoaded = false;
 		el_etaSC_isLoaded = false;
 		el_dEtaIn_isLoaded = false;
@@ -704,6 +740,8 @@ void LoadAllBranches()
 	if (nFOs_branch != 0) nFOs();
 	if (nvtx_branch != 0) nvtx();
 	if (p4_branch != 0) p4();
+	if (tag_p4_branch != 0) tag_p4();
+	if (dilep_p4_branch != 0) dilep_p4();
 	if (mc_p4_branch != 0) mc_p4();
 	if (mc_motherp4_branch != 0) mc_motherp4();
 	if (id_branch != 0) id();
@@ -731,6 +769,8 @@ void LoadAllBranches()
 	if (ptrelv1_branch != 0) ptrelv1();
 	if (miniiso_branch != 0) miniiso();
 	if (jet_close_lep_branch != 0) jet_close_lep();
+	if (tag_charge_branch != 0) tag_charge();
+	if (dilep_mass_branch != 0) dilep_mass();
 	if (el_sigmaIEtaIEta_full5x5_branch != 0) el_sigmaIEtaIEta_full5x5();
 	if (el_etaSC_branch != 0) el_etaSC();
 	if (el_dEtaIn_branch != 0) el_dEtaIn();
@@ -1077,6 +1117,32 @@ void LoadAllBranches()
 			p4_isLoaded = true;
 		}
 		return *p4_;
+	}
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &tag_p4()
+	{
+		if (not tag_p4_isLoaded) {
+			if (tag_p4_branch != 0) {
+				tag_p4_branch->GetEntry(index);
+			} else { 
+				printf("branch tag_p4_branch does not exist!\n");
+				exit(1);
+			}
+			tag_p4_isLoaded = true;
+		}
+		return *tag_p4_;
+	}
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &dilep_p4()
+	{
+		if (not dilep_p4_isLoaded) {
+			if (dilep_p4_branch != 0) {
+				dilep_p4_branch->GetEntry(index);
+			} else { 
+				printf("branch dilep_p4_branch does not exist!\n");
+				exit(1);
+			}
+			dilep_p4_isLoaded = true;
+		}
+		return *dilep_p4_;
 	}
 	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &mc_p4()
 	{
@@ -1429,6 +1495,32 @@ void LoadAllBranches()
 		}
 		return *jet_close_lep_;
 	}
+	int &tag_charge()
+	{
+		if (not tag_charge_isLoaded) {
+			if (tag_charge_branch != 0) {
+				tag_charge_branch->GetEntry(index);
+			} else { 
+				printf("branch tag_charge_branch does not exist!\n");
+				exit(1);
+			}
+			tag_charge_isLoaded = true;
+		}
+		return tag_charge_;
+	}
+	float &dilep_mass()
+	{
+		if (not dilep_mass_isLoaded) {
+			if (dilep_mass_branch != 0) {
+				dilep_mass_branch->GetEntry(index);
+			} else { 
+				printf("branch dilep_mass_branch does not exist!\n");
+				exit(1);
+			}
+			dilep_mass_isLoaded = true;
+		}
+		return dilep_mass_;
+	}
 	float &el_sigmaIEtaIEta_full5x5()
 	{
 		if (not el_sigmaIEtaIEta_full5x5_isLoaded) {
@@ -1742,6 +1834,8 @@ namespace lepton_tree {
 	const int &nFOs();
 	const int &nvtx();
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &tag_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &dilep_p4();
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &mc_p4();
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &mc_motherp4();
 	const int &id();
@@ -1769,6 +1863,8 @@ namespace lepton_tree {
 	const float &ptrelv1();
 	const float &miniiso();
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &jet_close_lep();
+	const int &tag_charge();
+	const float &dilep_mass();
 	const float &el_sigmaIEtaIEta_full5x5();
 	const float &el_etaSC();
 	const float &el_dEtaIn();
